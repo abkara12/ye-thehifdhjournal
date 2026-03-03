@@ -153,6 +153,13 @@ export default function AdminStudentPage() {
   const params = useParams<{ uid: string }>();
   const studentUid = params.uid;
 
+  const [sabakLines, setSabakLines] = useState("");
+const [sabakDhorJuz, setSabakDhorJuz] = useState("");
+const [dhorJuz, setDhorJuz] = useState("");
+const [hoursForDay, setHoursForDay] = useState("");
+
+// weekly total lines (manual entry at end of week)
+const [weeklyLinesLearned, setWeeklyLinesLearned] = useState("");
   const [me, setMe] = useState<User | null>(null);
   const [checking, setChecking] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -272,6 +279,12 @@ setStudentName(
         setSabakDhorMistakes(toText(d.sabakDhorMistakes));
         setDhorMistakes(toText(d.dhorMistakes));
 
+        setSabakLines(toText(d.sabakLines));
+        setSabakDhorJuz(toText(d.sabakDhorJuz));
+        setDhorJuz(toText(d.dhorJuz));
+        setHoursForDay(toText(d.hoursForDay));
+        setWeeklyLinesLearned(toText(d.weeklyLinesLearned));
+
         // ✅ reading fields from today log (read from either naming style)
         setSabakReadQuality(pickText(d.sabakRead, d.sabakReadQuality));
         setSabakReadNotes(toText(d.sabakReadNotes));
@@ -332,6 +345,12 @@ setStudentName(
           sabak,
           sabakDhor,
           dhor,
+
+          sabakLines,
+          sabakDhorJuz,
+          dhorJuz,
+          hoursForDay,
+          weeklyLinesLearned,
 
           // ✅ Save the EXACT field names the student table expects
           sabakRead: sabakReadQuality,
@@ -604,6 +623,42 @@ setStudentName(
               />
             </div>
           </div>
+          {/* Madrassah Custom Tracking */}
+<div className="rounded-3xl border border-gray-200 bg-white/60 p-5 sm:p-6">
+  <div className="text-sm font-semibold text-gray-900">
+    Daily Lines & Hours Tracking
+  </div>
+
+  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+    <Field
+      label="Sabak Lines (today)"
+      value={sabakLines}
+      setValue={setSabakLines}
+      hint="Number of lines memorised"
+    />
+
+    <Field
+      label="Sabak Dhor (½ Juz)"
+      value={sabakDhorJuz}
+      setValue={setSabakDhorJuz}
+      hint="Example: 0.5"
+    />
+
+    <Field
+      label="Dhor (½ Juz)"
+      value={dhorJuz}
+      setValue={setDhorJuz}
+      hint="Example: 0.5"
+    />
+
+    <Field
+      label="Hours for the day"
+      value={hoursForDay}
+      setValue={setHoursForDay}
+      hint="Total hours spent"
+    />
+  </div>
+</div>
 
           {/* Weekly goal block */}
           <div className="rounded-3xl border border-gray-200 bg-white/70 p-5 sm:p-6">

@@ -64,6 +64,12 @@ type LogRow = {
   id: string;
   dateKey?: string;
 
+  sabakLines?: string;
+  sabakDhorJuz?: string;
+  dhorJuz?: string;
+  hoursForDay?: string;
+  weeklyLinesLearned?: string;
+
   sabak?: string;
   sabakRead?: string;
   sabakReadNotes?: string;
@@ -162,13 +168,31 @@ setStudentName(
   }, [studentUid]);
 
   const summary = useMemo(() => {
-    if (!rows.length) return { totalDays: 0, avgSabak: 0, lastGoal: 0 };
-    const sabakNums = rows.map((r) => num(r.sabak)).filter((n) => n > 0);
-    const avgSabak =
-      sabakNums.length ? sabakNums.reduce((a, b) => a + b, 0) / sabakNums.length : 0;
-    const lastGoal = num(rows[0]?.weeklyGoal);
-    return { totalDays: rows.length, avgSabak, lastGoal };
-  }, [rows]);
+  if (!rows.length)
+    return { totalDays: 0, avgSabak: 0, lastGoal: 0, weeklyTotalLines: 0 };
+
+  const sabakNums = rows.map((r) => num(r.sabak)).filter((n) => n > 0);
+  const avgSabak =
+    sabakNums.length ? sabakNums.reduce((a, b) => a + b, 0) / sabakNums.length : 0;
+
+  const lastGoal = num(rows[0]?.weeklyGoal);
+
+  // 🔥 Weekly total lines (current ISO week)
+  const currentWeekKey = rows[0]?.dateKey
+    ? rows[0].dateKey.slice(0, 8) // gets YYYY-MM-
+    : "";
+
+  const weeklyTotalLines = rows
+    .filter((r) => r.dateKey?.startsWith(currentWeekKey))
+    .reduce((sum, r) => sum + num(r.sabakLines), 0);
+
+  return {
+    totalDays: rows.length,
+    avgSabak,
+    lastGoal,
+    weeklyTotalLines,
+  };
+}, [rows]);
 
   if (checking) {
     return (
@@ -324,7 +348,23 @@ setStudentName(
                       </th>
 
                       <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Sabak
+                        Sabak Lines
+                      </th>
+                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
+                        Read
+                      </th>
+                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
+                        Hours
+                      </th>
+                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
+                        Weekly Lines
+                      </th>
+                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
+  Notes
+</th>
+
+                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
+                        SD (½ Juz)
                       </th>
                       <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
                         Read
@@ -334,17 +374,7 @@ setStudentName(
 </th>
 
                       <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Sabak Dhor
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Read
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-  Notes
-</th>
-
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Dhor
+                        Dhor (½ Juz)
                       </th>
                       <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
                         Read
@@ -417,6 +447,25 @@ setStudentName(
                           <td className="py-4 pr-4 pl-2 font-medium text-gray-900">
                             {r.dateKey ?? r.id}
                           </td>
+                          <td className="py-4 px-4 border-l border-gray-100">
+                              {toText(r.sabakLines) || "—"}
+                            </td>
+
+                            <td className="py-4 px-4 border-l border-gray-100">
+                              {toText(r.sabakDhorJuz) || "—"}
+                            </td>
+
+                            <td className="py-4 px-4 border-l border-gray-100">
+                              {toText(r.dhorJuz) || "—"}
+                            </td>
+
+                            <td className="py-4 px-4 border-l border-gray-100">
+                              {toText(r.hoursForDay) || "—"}
+                            </td>
+
+                            <td className="py-4 px-4 border-l border-gray-100 font-semibold">
+                              {toText(r.weeklyLinesLearned) || "—"}
+                            </td>
 
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.sabak) || "—"}
