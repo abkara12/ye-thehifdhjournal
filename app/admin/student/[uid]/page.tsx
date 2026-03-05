@@ -168,13 +168,10 @@ const [studentName, setStudentName] = useState("");
   // ✅ reading quality fields
   // IMPORTANT: Student overview expects sabakRead / sabakDhorRead / dhorRead
   // We keep quality state names, but we will SAVE to BOTH field-name styles.
-  const [sabakReadQuality, setSabakReadQuality] = useState("");
   const [sabakReadNotes, setSabakReadNotes] = useState("");
 
-  const [sabakDhorReadQuality, setSabakDhorReadQuality] = useState("");
   const [sabakDhorReadNotes, setSabakDhorReadNotes] = useState("");
 
-  const [dhorReadQuality, setDhorReadQuality] = useState("");
   const [dhorReadNotes, setDhorReadNotes] = useState("");
 
   // mistakes fields
@@ -251,16 +248,8 @@ setStudentName(
 
         // ✅ seed reading snapshot
         // read from either naming style
-        setSabakReadQuality(pickText(data.currentSabakRead, data.currentSabakReadQuality));
-        setSabakReadNotes(toText(data.currentSabakReadNotes));
-
-        setSabakDhorReadQuality(
-          pickText(data.currentSabakDhorRead, data.currentSabakDhorReadQuality)
-        );
+        
         setSabakDhorReadNotes(toText(data.currentSabakDhorReadNotes));
-
-        setDhorReadQuality(pickText(data.currentDhorRead, data.currentDhorReadQuality));
-        setDhorReadNotes(toText(data.currentDhorReadNotes));
       }
 
       // today's log overrides if exists
@@ -274,15 +263,6 @@ setStudentName(
         setDhorMistakes(toText(d.dhorMistakes));
 
         // ✅ reading fields from today log (read from either naming style)
-        setSabakReadQuality(pickText(d.sabakRead, d.sabakReadQuality));
-        setSabakReadNotes(toText(d.sabakReadNotes));
-
-        setSabakDhorReadQuality(pickText(d.sabakDhorRead, d.sabakDhorReadQuality));
-        setSabakDhorReadNotes(toText(d.sabakDhorReadNotes));
-
-        setDhorReadQuality(pickText(d.dhorRead, d.dhorReadQuality));
-        setDhorReadNotes(toText(d.dhorReadNotes));
-
         if (!weeklyGoal) setWeeklyGoal(toText(d.weeklyGoal));
       }
     }
@@ -335,14 +315,8 @@ setStudentName(
           dhor,
 
           // ✅ Save the EXACT field names the student table expects
-          sabakRead: sabakReadQuality,
-          sabakDhorRead: sabakDhorReadQuality,
-          dhorRead: dhorReadQuality,
-
-          // ✅ Keep your existing "Quality" keys too (backwards/for future)
-          sabakReadQuality,
-          sabakDhorReadQuality,
-          dhorReadQuality,
+        
+          // ✅ Keep your existing "Quality" keys too (backwards/for future
 
           // notes
           sabakReadNotes,
@@ -380,13 +354,6 @@ setStudentName(
           currentDhor: dhor,
 
           // ✅ Save snapshot in BOTH naming styles too
-          currentSabakRead: sabakReadQuality,
-          currentSabakDhorRead: sabakDhorReadQuality,
-          currentDhorRead: dhorReadQuality,
-
-          currentSabakReadQuality: sabakReadQuality,
-          currentSabakDhorReadQuality: sabakDhorReadQuality,
-          currentDhorReadQuality: dhorReadQuality,
 
           currentSabakReadNotes: sabakReadNotes,
           currentSabakDhorReadNotes: sabakDhorReadNotes,
@@ -513,19 +480,14 @@ setStudentName(
             <div className="text-sm font-semibold text-gray-900">Sabak</div>
             <div className="mt-4 grid gap-4">
               <Field
-                label="Sabak amount"
+                label="Sabak Lines(Today)"
                 value={sabak}
                 setValue={setSabak}
                 hint="Example: 2 pages / 1 ruku / 5 lines"
               />
 
               <div className="grid sm:grid-cols-2 gap-4">
-                <SelectField
-                  label="How did the student read Sabak?"
-                  value={sabakReadQuality}
-                  setValue={setSabakReadQuality}
-                  options={READING_OPTIONS}
-                />
+                
                 <Field
                   label="Sabak reading notes (optional)"
                   value={sabakReadNotes}
@@ -541,19 +503,14 @@ setStudentName(
             <div className="text-sm font-semibold text-gray-900">Sabak Dhor</div>
             <div className="mt-4 grid gap-4">
               <Field
-                label="Sabak Dhor amount"
+                label="Sabak Dhor(1/2 Juz)"
                 value={sabakDhor}
                 setValue={setSabakDhor}
                 hint="Revision for current sabak"
               />
 
               <div className="grid sm:grid-cols-2 gap-4">
-                <SelectField
-                  label="How did the student read Sabak Dhor?"
-                  value={sabakDhorReadQuality}
-                  setValue={setSabakDhorReadQuality}
-                  options={READING_OPTIONS}
-                />
+              
                 <Field
                   label="Sabak Dhor reading notes (optional)"
                   value={sabakDhorReadNotes}
@@ -576,19 +533,13 @@ setStudentName(
             <div className="text-sm font-semibold text-gray-900">Dhor</div>
             <div className="mt-4 grid gap-4">
               <Field
-                label="Dhor amount"
+                label="Dhor(1/2 Juz)"
                 value={dhor}
                 setValue={setDhor}
                 hint="Older revision"
               />
 
               <div className="grid sm:grid-cols-2 gap-4">
-                <SelectField
-                  label="How did the student read Dhor?"
-                  value={dhorReadQuality}
-                  setValue={setDhorReadQuality}
-                  options={READING_OPTIONS}
-                />
                 <Field
                   label="Dhor reading notes (optional)"
                   value={dhorReadNotes}

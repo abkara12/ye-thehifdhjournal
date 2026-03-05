@@ -65,15 +65,12 @@ type LogRow = {
   dateKey?: string;
 
   sabak?: string;
-  sabakRead?: string;
   sabakReadNotes?: string;
 
   sabakDhor?: string;
-  sabakDhorRead?: string;
   sabakDhorReadNotes?: string;
 
   dhor?: string;
-  dhorRead?: string;
   dhorReadNotes?: string;
 
   weeklyGoal?: string;
@@ -324,31 +321,25 @@ setStudentName(
                       </th>
 
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Sabak
+                        Sabak Lines
                       </th>
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Read
-                      </th>
+                   
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
   Notes
 </th>
 
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Sabak Dhor
+                        Sabak Dhor(1/2 Juz)
                       </th>
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Read
-                      </th>
+                     
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
   Notes
 </th>
 
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Dhor
+                        Dhor(1/2 Juz)
                       </th>
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Read
-                      </th>
+                      
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
   Notes
 </th>
@@ -421,9 +412,7 @@ setStudentName(
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.sabak) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100">
-                            {toText(r.sabakRead) || "—"}
-                          </td>
+                         
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
   {toText(r.sabakReadNotes) || "—"}
 </td>
@@ -431,9 +420,7 @@ setStudentName(
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.sabakDhor) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100">
-                            {toText(r.sabakDhorRead) || "—"}
-                          </td>
+                          
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
   {toText(r.sabakDhorReadNotes) || "—"}
 </td>
@@ -441,9 +428,7 @@ setStudentName(
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.dhor) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100">
-                            {toText(r.dhorRead) || "—"}
-                          </td>
+                         
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
   {toText(r.dhorReadNotes) || "—"}
 </td>
