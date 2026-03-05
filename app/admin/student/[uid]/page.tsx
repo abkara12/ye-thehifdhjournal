@@ -140,14 +140,6 @@ function LoadingCard() {
   );
 }
 
-/** -------------------- Reading quality options -------------------- */
-const READING_OPTIONS = [
-  { value: "", label: "Select…" },
-  { value: "Excellent", label: "Excellent" },
-  { value: "Good", label: "Good" },
-  { value: "Average", label: "Average" },
-  { value: "Poor", label: "Poor" },
-];
 
 /** -------------------- Page -------------------- */
 export default function AdminStudentPage() {
@@ -164,6 +156,7 @@ const [studentName, setStudentName] = useState("");
   const [sabak, setSabak] = useState("");
   const [sabakDhor, setSabakDhor] = useState("");
   const [dhor, setDhor] = useState("");
+  const [hoursForDay, setHoursForDay] = useState("");
 
   // ✅ reading quality fields
   // IMPORTANT: Student overview expects sabakRead / sabakDhorRead / dhorRead
@@ -174,9 +167,7 @@ const [studentName, setStudentName] = useState("");
 
   const [dhorReadNotes, setDhorReadNotes] = useState("");
 
-  // mistakes fields
-  const [sabakDhorMistakes, setSabakDhorMistakes] = useState("");
-  const [dhorMistakes, setDhorMistakes] = useState("");
+ 
 
   // weekly goal fields (meta)
   const [weeklyGoal, setWeeklyGoal] = useState("");
@@ -243,8 +234,7 @@ setStudentName(
         setSabak(toText(data.currentSabak));
         setSabakDhor(toText(data.currentSabakDhor));
         setDhor(toText(data.currentDhor));
-        setSabakDhorMistakes(toText(data.currentSabakDhorMistakes));
-        setDhorMistakes(toText(data.currentDhorMistakes));
+     
 
         // ✅ seed reading snapshot
         // read from either naming style
@@ -259,8 +249,7 @@ setStudentName(
         setSabak(toText(d.sabak));
         setSabakDhor(toText(d.sabakDhor));
         setDhor(toText(d.dhor));
-        setSabakDhorMistakes(toText(d.sabakDhorMistakes));
-        setDhorMistakes(toText(d.dhorMistakes));
+      
 
         // ✅ reading fields from today log (read from either naming style)
         if (!weeklyGoal) setWeeklyGoal(toText(d.weeklyGoal));
@@ -323,15 +312,14 @@ setStudentName(
           sabakDhorReadNotes,
           dhorReadNotes,
 
-          sabakDhorMistakes,
-          dhorMistakes,
-
           weeklyGoal: nextGoal,
           weeklyGoalWeekKey: nextWeekKey || null,
           weeklyGoalStartDateKey: nextStartKey || null,
           weeklyGoalCompletedDateKey: nextCompletedKey || null,
           weeklyGoalDurationDays: nextDuration ?? null,
           weeklyGoalCompleted: Boolean(nextCompletedKey),
+
+          hoursForDay: hoursForDay || "",
 
           updatedBy: me?.uid ?? null,
           updatedByEmail: me?.email ?? null,
@@ -358,9 +346,6 @@ setStudentName(
           currentSabakReadNotes: sabakReadNotes,
           currentSabakDhorReadNotes: sabakDhorReadNotes,
           currentDhorReadNotes: dhorReadNotes,
-
-          currentSabakDhorMistakes: sabakDhorMistakes,
-          currentDhorMistakes: dhorMistakes,
 
           updatedAt: serverTimestamp(),
           lastUpdatedBy: me?.uid ?? null,
@@ -519,12 +504,6 @@ setStudentName(
                 />
               </div>
 
-              <Field
-                label="Sabak Dhor mistakes"
-                value={sabakDhorMistakes}
-                setValue={setSabakDhorMistakes}
-                hint="Number"
-              />
             </div>
           </div>
 
@@ -547,15 +526,17 @@ setStudentName(
                   hint="Short notes"
                 />
               </div>
-
               <Field
-                label="Dhor mistakes"
-                value={dhorMistakes}
-                setValue={setDhorMistakes}
-                hint="Number"
-              />
+                label="Hours Studied Today"
+                value={hoursForDay}
+                setValue={setHoursForDay}
+                hint="Example: 2.5 hours"/>
             </div>
+            
           </div>
+
+          
+          
 
           {/* Weekly goal block */}
           <div className="rounded-3xl border border-gray-300 bg-white/70 p-5 sm:p-6">

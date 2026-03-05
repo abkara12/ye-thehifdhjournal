@@ -73,10 +73,9 @@ type LogRow = {
   dhor?: string;
   dhorReadNotes?: string;
 
-  weeklyGoal?: string;
+  hoursForDay?: string;
 
-  sabakDhorMistakes?: string;
-  dhorMistakes?: string;
+  weeklyGoal?: string;
 
   weeklyGoalStartDateKey?: string;
   weeklyGoalCompletedDateKey?: string;
@@ -344,13 +343,9 @@ setStudentName(
   Notes
 </th>
 
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        SD Mistakes
-                      </th>
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        D Mistakes
-                      </th>
-
+                        <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                          Hours Learned (Today)
+                       </th>
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
                         Weekly Goal
                       </th>
@@ -430,16 +425,11 @@ setStudentName(
                           </td>
                          
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
-  {toText(r.dhorReadNotes) || "—"}
-</td>
-
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {toText(r.sabakDhorMistakes) || "—"}
+                            {toText(r.dhorReadNotes) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {toText(r.dhorMistakes) || "—"}
+                                                      <td className="py-4 px-4 border-l border-gray-100">
+                          {toText(r.hoursForDay) || "—"}
                           </td>
-
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.weeklyGoal) || "—"}
                           </td>
