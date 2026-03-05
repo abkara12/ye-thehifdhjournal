@@ -69,9 +69,11 @@ type LogRow = {
 
   sabakDhor?: string;
   sabakDhorReadNotes?: string;
+  sabakDhorHalf?: string;
 
   dhor?: string;
   dhorReadNotes?: string;
+  dhorHalf?: string;
 
   hoursForDay?: string;
 
@@ -324,6 +326,9 @@ setStudentName(
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
                         Sabak Dhor(1/2 Juz)
                       </th>
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Sabak Dhor Half
+                      </th>
                      
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
   Notes
@@ -331,6 +336,9 @@ setStudentName(
 
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
                         Dhor(1/2 Juz)
+                      </th>
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Dhor Half
                       </th>
                       
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
@@ -387,6 +395,13 @@ setStudentName(
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.sabakDhor) || "—"}
                           </td>
+                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
+                            {r.sabakDhorHalf === "first"
+                              ? "First Half"
+                              : r.sabakDhorHalf === "second"
+                              ? "Second Half"
+                              : "—"}
+                          </td>
                           
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
   {toText(r.sabakDhorReadNotes) || "—"}
@@ -395,7 +410,13 @@ setStudentName(
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.dhor) || "—"}
                           </td>
-                         
+                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
+                          {r.dhorHalf === "first"
+                            ? "First Half"
+                            : r.dhorHalf === "second"
+                            ? "Second Half"
+                            : "—"}
+                            </td>
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
                             {toText(r.dhorReadNotes) || "—"}
                           </td>

@@ -169,6 +169,9 @@ const [studentName, setStudentName] = useState("");
 
   const [weeklyLinesLearned, setWeeklyLinesLearned] = useState("");
 
+  const [sabakDhorHalf, setSabakDhorHalf] = useState("first");
+  const [dhorHalf, setDhorHalf] = useState("first");
+
  
 
  
@@ -273,6 +276,9 @@ setStudentName(
           dhorReadNotes,
 
           hoursForDay: hoursForDay || "",
+
+           currentSabakDhorHalf: sabakDhorHalf,
+           currentDhorHalf: dhorHalf,
 
           updatedBy: me?.uid ?? null,
           updatedByEmail: me?.email ?? null,
@@ -421,6 +427,15 @@ setStudentName(
                 setValue={setSabakDhor}
                 hint="Revision for current sabak"
               />
+              <SelectField
+  label="Which half did you read?"
+  value={sabakDhorHalf}
+  setValue={setSabakDhorHalf}
+  options={[
+    { value: "first", label: "First Half" },
+    { value: "second", label: "Second Half" },
+  ]}
+/>
 
               <div className="grid sm:grid-cols-2 gap-4">
               
@@ -446,6 +461,16 @@ setStudentName(
                 hint="Older revision"
               />
 
+
+              <SelectField
+  label="Which half did you read?"
+  value={dhorHalf}
+  setValue={setDhorHalf}
+  options={[
+    { value: "first", label: "First Half" },
+    { value: "second", label: "Second Half" },
+  ]}
+/>
               <div className="grid sm:grid-cols-2 gap-4">
                 <Field
                   label="Dhor reading notes (optional)"
