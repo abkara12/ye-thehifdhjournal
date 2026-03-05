@@ -53,25 +53,19 @@ type LogRow = {
   dateKey?: string;
 
   sabak?: string;
-  sabakRead?: string;
+  sabakReadNotes?: string;
 
   sabakDhor?: string;
-  sabakDhorRead?: string;
+  sabakDhorReadNotes?: string;
 
   dhor?: string;
-  dhorRead?: string;
+  dhorReadNotes?: string;
 
-  weeklyGoal?: string;
+  hoursForDay?: string;
 
-  sabakDhorMistakes?: string;
-  dhorMistakes?: string;
-
-  notes?: string; // ✅ ADD THIS
-
-  weeklyGoalStartDateKey?: string;
-  weeklyGoalCompletedDateKey?: string;
-  weeklyGoalDurationDays?: number | string;
+  weeklyLinesLearned?: string;
 };
+
 
 async function fetchLogs(uid: string): Promise<LogRow[]> {
   const q = query(collection(db, "users", uid, "logs"), orderBy("dateKey", "desc"));
@@ -117,8 +111,7 @@ export default function OverviewPage() {
     const sabakNums = rows.map((r) => num(r.sabak)).filter((n) => n > 0);
     const avgSabak =
       sabakNums.length ? sabakNums.reduce((a, b) => a + b, 0) / sabakNums.length : 0;
-    const lastGoal = num(rows[0]?.weeklyGoal);
-    return { totalDays: rows.length, avgSabak, lastGoal };
+    return { totalDays: rows.length, avgSabak};
   }, [rows]);
 
   if (loadingUser) {
@@ -240,59 +233,44 @@ export default function OverviewPage() {
                 <table className="min-w-[1100px] w-full border-separate border-spacing-0">
                   <thead>
                     <tr className="text-left text-[11px] uppercase tracking-[0.18em] text-gray-500">
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 pr-4 pl-2 border-b border-gray-200">
+                    <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 pr-4 pl-2 border-b border-gray-300">
                         Day
                       </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 pr-4 pl-2 border-b border-gray-200">
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 pr-4 pl-2 border-b border-gray-300">
                         Date
                       </th>
 
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Sabak
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Sabak Lines
                       </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Read
+                   
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+  Notes
+</th>
+
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Sabak Dhor(1/2 Juz)
                       </th>
-                       <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Notes
+                     
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+  Notes
+</th>
+
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Dhor(1/2 Juz)
+                      </th>
+                      
+                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+  Notes
+</th>
+
+                        <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                          Hours Learned (Today)
+                       </th>
+                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Total Weekly Lines
                       </th>
 
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Sabak Dhor
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Read
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Notes
-                      </th>
-
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Dhor
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Read
-                      </th>
-                       <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Notes
-                      </th>
-
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        SD Mistakes
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        D Mistakes
-                      </th>
-
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Weekly Goal
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Goal Status
-                      </th>
-                      <th className="sticky top-0 bg-white/60 backdrop-blur pb-3 px-4 border-b border-gray-200 border-l border-gray-100">
-                        Duration
-                      </th>
                     </tr>
                   </thead>
 
@@ -303,25 +281,11 @@ export default function OverviewPage() {
                     index > 0 ? getMonthLabel(rows[index - 1].dateKey) : null;
 
                     const showMonthHeader = index === 0 || currentMonth !== prevMonth;
-                      const g = num(r.weeklyGoal);
 
-                      const startKey = toText(r.weeklyGoalStartDateKey);
-                      const completedKey = toText(r.weeklyGoalCompletedDateKey);
+              
 
                       // duration (prefer stored, fallback calculate)
-                      const storedDur =
-                        typeof r.weeklyGoalDurationDays === "number"
-                          ? r.weeklyGoalDurationDays
-                          : toText(r.weeklyGoalDurationDays)
-                          ? Number(r.weeklyGoalDurationDays)
-                          : null;
-
-                      const calcDur =
-                        startKey && completedKey ? diffDaysInclusive(startKey, completedKey) : null;
-
-                      const duration = storedDur ?? calcDur;
-
-                      const completed = Boolean(completedKey) || (duration ?? 0) > 0;
+                     
 
                       return (
                         <>
@@ -337,9 +301,9 @@ export default function OverviewPage() {
   )}
 
                         <tr key={r.id} className="text-sm hover:bg-black/[0.02] transition-colors">
-                        <td className="py-4 pr-4 pl-2 font-medium text-gray-600">
-  {getDayName(r.dateKey)}
-</td>
+                         <td className="py-4 pr-4 pl-2 font-medium text-gray-600">
+                        {getDayName(r.dateKey)}
+                        </td>
                           <td className="py-4 pr-4 pl-2 font-medium text-gray-900">
                             {r.dateKey ?? r.id}
                           </td>
@@ -347,68 +311,32 @@ export default function OverviewPage() {
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.sabak) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100">
-                            {toText(r.sabakRead) || "—"}
-                          </td>
-                         <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-  {toText(r.notes) || "—"}
+                         
+                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
+  {toText(r.sabakReadNotes) || "—"}
 </td>
 
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.sabakDhor) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100">
-                            {toText(r.sabakDhorRead) || "—"}
-                          </td>
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-  {toText(r.notes) || "—"}
+                          
+                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
+  {toText(r.sabakDhorReadNotes) || "—"}
 </td>
 
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.dhor) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100">
-                            {toText(r.dhorRead) || "—"}
+                         
+                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
+                            {toText(r.dhorReadNotes) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-  {toText(r.notes) || "—"}
+                                                      <td className="py-4 px-4 border-l border-gray-100">
+                          {toText(r.hoursForDay) || "—"}
+                          </td>
+                          <td className="py-4 px-4 border-l border-gray-100 font-semibold">
+  {toText(r.weeklyLinesLearned) || "—"}
 </td>
-
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {toText(r.sabakDhorMistakes) || "—"}
-                          </td>
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {toText(r.dhorMistakes) || "—"}
-                          </td>
-
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {toText(r.weeklyGoal) || "—"}
-                          </td>
-
-                          <td className="py-4 px-4 border-l border-gray-100">
-                            {g > 0 ? (
-                              <span
-                                className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold border ${
-                                  completed
-                                    ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                                    : "border-amber-200 bg-amber-50 text-amber-700"
-                                }`}
-                              >
-                                <span
-                                  className={`h-2 w-2 rounded-full ${
-                                    completed ? "bg-emerald-500" : "bg-amber-500"
-                                  }`}
-                                />
-                                {completed ? "Completed" : "In progress"}
-                              </span>
-                            ) : (
-                              <span className="text-xs text-gray-500">No goal set</span>
-                            )}
-                          </td>
-
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {duration ? `${duration} day(s)` : "—"}
-                          </td>
                         </tr>
                         </>
                       );

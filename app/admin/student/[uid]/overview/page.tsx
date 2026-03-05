@@ -269,7 +269,6 @@ setStudentName(
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
           <StatCard label="Days logged" value={String(summary.totalDays)} />
           <StatCard label="Average Sabak" value={summary.avgSabak ? summary.avgSabak.toFixed(1) : "—"} />
-          <StatCard label="Latest weekly goal" value={summary.lastGoal ? String(summary.lastGoal) : "—"} />
         </div>
 
         <div className="rounded-3xl border border-gray-300 bg-white/70 backdrop-blur shadow-sm overflow-hidden">
