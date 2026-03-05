@@ -69,11 +69,11 @@ type LogRow = {
 
   sabakDhor?: string;
   sabakDhorReadNotes?: string;
-  sabakDhorHalf?: string;
+  currentSabakDhorHalf?: string; 
 
   dhor?: string;
   dhorReadNotes?: string;
-  dhorHalf?: string;
+  currentDhorHalf?: string;
 
   hoursForDay?: string;
 
@@ -403,7 +403,7 @@ setStudentName(
                             {toText(r.sabakDhor) || "—"}
                           </td>
             <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-  {displayHalf(r.sabakDhorHalf)}
+  {displayHalf(r.currentSabakDhorHalf)}
 </td>
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
   {toText(r.sabakDhorReadNotes) || "—"}
@@ -413,7 +413,7 @@ setStudentName(
                             {toText(r.dhor) || "—"}
                           </td>
     <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-  {displayHalf(r.dhorHalf)}
+  {displayHalf(r.currentDhorHalf)}
 </td>
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
                             {toText(r.dhorReadNotes) || "—"}
