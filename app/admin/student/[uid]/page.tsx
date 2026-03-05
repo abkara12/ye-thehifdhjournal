@@ -531,26 +531,11 @@ setStudentName(
             <div className="text-sm font-semibold text-gray-900">Sabak</div>
             <div className="mt-4 grid gap-4">
               <Field
-                label="Sabak amount"
+                label="Sabak Lines(Today)"
                 value={sabak}
                 setValue={setSabak}
                 hint="Example: 2 pages / 1 ruku / 5 lines"
               />
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <SelectField
-                  label="How did the student read Sabak?"
-                  value={sabakReadQuality}
-                  setValue={setSabakReadQuality}
-                  options={READING_OPTIONS}
-                />
-                <Field
-                  label="Sabak reading notes (optional)"
-                  value={sabakReadNotes}
-                  setValue={setSabakReadNotes}
-                  hint="Short notes: fluency, tajweed, stops, etc."
-                />
-              </div>
             </div>
           </div>
 
@@ -559,26 +544,11 @@ setStudentName(
             <div className="text-sm font-semibold text-gray-900">Sabak Dhor</div>
             <div className="mt-4 grid gap-4">
               <Field
-                label="Sabak Dhor amount"
+                label="Sabak Dhor (½ Juz)"
                 value={sabakDhor}
                 setValue={setSabakDhor}
                 hint="Revision for current sabak"
               />
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <SelectField
-                  label="How did the student read Sabak Dhor?"
-                  value={sabakDhorReadQuality}
-                  setValue={setSabakDhorReadQuality}
-                  options={READING_OPTIONS}
-                />
-                <Field
-                  label="Sabak Dhor reading notes (optional)"
-                  value={sabakDhorReadNotes}
-                  setValue={setSabakDhorReadNotes}
-                  hint="Short notes"
-                />
-              </div>
 
               <Field
                 label="Sabak Dhor mistakes"
@@ -594,26 +564,11 @@ setStudentName(
             <div className="text-sm font-semibold text-gray-900">Dhor</div>
             <div className="mt-4 grid gap-4">
               <Field
-                label="Dhor amount"
+                label="Dhor (½ Juz)"
                 value={dhor}
                 setValue={setDhor}
                 hint="Older revision"
               />
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <SelectField
-                  label="How did the student read Dhor?"
-                  value={dhorReadQuality}
-                  setValue={setDhorReadQuality}
-                  options={READING_OPTIONS}
-                />
-                <Field
-                  label="Dhor reading notes (optional)"
-                  value={dhorReadNotes}
-                  setValue={setDhorReadNotes}
-                  hint="Short notes"
-                />
-              </div>
 
               <Field
                 label="Dhor mistakes"
@@ -626,31 +581,10 @@ setStudentName(
           {/* Madrassah Custom Tracking */}
 <div className="rounded-3xl border border-gray-200 bg-white/60 p-5 sm:p-6">
   <div className="text-sm font-semibold text-gray-900">
-    Daily Lines & Hours Tracking
+     Hours Tracking
   </div>
 
   <div className="mt-4 grid gap-4 sm:grid-cols-2">
-    <Field
-      label="Sabak Lines (today)"
-      value={sabakLines}
-      setValue={setSabakLines}
-      hint="Number of lines memorised"
-    />
-
-    <Field
-      label="Sabak Dhor (½ Juz)"
-      value={sabakDhorJuz}
-      setValue={setSabakDhorJuz}
-      hint="Example: 0.5"
-    />
-
-    <Field
-      label="Dhor (½ Juz)"
-      value={dhorJuz}
-      setValue={setDhorJuz}
-      hint="Example: 0.5"
-    />
-
     <Field
       label="Hours for the day"
       value={hoursForDay}
