@@ -167,15 +167,11 @@ const [studentName, setStudentName] = useState("");
 
   const [dhorReadNotes, setDhorReadNotes] = useState("");
 
+  const [weeklyLinesLearned, setWeeklyLinesLearned] = useState("");
+
  
 
-  // weekly goal fields (meta)
-  const [weeklyGoal, setWeeklyGoal] = useState("");
-  const [weeklyGoalWeekKey, setWeeklyGoalWeekKey] = useState("");
-  const [weeklyGoalStartDateKey, setWeeklyGoalStartDateKey] = useState("");
-  const [weeklyGoalCompletedDateKey, setWeeklyGoalCompletedDateKey] = useState("");
-  const [weeklyGoalDurationDays, setWeeklyGoalDurationDays] = useState<number | null>(null);
-
+ 
   // UI
   const [markGoalCompleted, setMarkGoalCompleted] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -183,13 +179,6 @@ const [studentName, setStudentName] = useState("");
 
   const dateKey = useMemo(() => getDateKeySA(), []);
   const currentWeekKey = useMemo(() => isoWeekKeyFromDateKey(dateKey), [dateKey]);
-
-  // weekly goal can be set only once per week
-  const goalLockedThisWeek =
-    weeklyGoal.trim().length > 0 && weeklyGoalWeekKey === currentWeekKey;
-
-  const goalAlreadyCompleted =
-    Boolean(weeklyGoalCompletedDateKey) || (weeklyGoalDurationDays ?? 0) > 0;
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
@@ -222,14 +211,7 @@ const [studentName, setStudentName] = useState("");
 setStudentName(
   toText(data.username) || toText(data.email) || "Student"
 );
-        setWeeklyGoal(toText(data.weeklyGoal));
-        setWeeklyGoalWeekKey(toText(data.weeklyGoalWeekKey));
-        setWeeklyGoalStartDateKey(toText(data.weeklyGoalStartDateKey));
-        setWeeklyGoalCompletedDateKey(toText(data.weeklyGoalCompletedDateKey));
-
-        const dur = data.weeklyGoalDurationDays;
-        setWeeklyGoalDurationDays(typeof dur === "number" ? dur : dur ? Number(dur) : null);
-
+      
         // seed with snapshot
         setSabak(toText(data.currentSabak));
         setSabakDhor(toText(data.currentSabakDhor));
@@ -252,7 +234,6 @@ setStudentName(
       
 
         // ✅ reading fields from today log (read from either naming style)
-        if (!weeklyGoal) setWeeklyGoal(toText(d.weeklyGoal));
       }
     }
 
@@ -269,29 +250,8 @@ setStudentName(
 
     try {
       // ---- Weekly goal meta updates ----
-      let nextGoal = weeklyGoal.trim();
-      let nextWeekKey = weeklyGoalWeekKey;
-      let nextStartKey = weeklyGoalStartDateKey;
-      let nextCompletedKey = weeklyGoalCompletedDateKey;
-      let nextDuration = weeklyGoalDurationDays;
-
-      if (nextGoal) {
-        const isNewWeekGoal = !nextWeekKey || nextWeekKey !== currentWeekKey;
-        if (isNewWeekGoal) {
-          nextWeekKey = currentWeekKey;
-          nextStartKey = dateKey;
-          nextCompletedKey = "";
-          nextDuration = null;
-          setMarkGoalCompleted(false);
-        }
-
-        if (markGoalCompleted && !nextCompletedKey) {
-          const startKey = nextStartKey || dateKey;
-          nextCompletedKey = dateKey;
-          nextDuration = diffDaysInclusive(startKey, dateKey);
-        }
-      }
-
+    
+     
       // ---- 1) Daily log doc ----
       await setDoc(
         doc(db, "users", studentUid, "logs", dateKey),
@@ -312,13 +272,6 @@ setStudentName(
           sabakDhorReadNotes,
           dhorReadNotes,
 
-          weeklyGoal: nextGoal,
-          weeklyGoalWeekKey: nextWeekKey || null,
-          weeklyGoalStartDateKey: nextStartKey || null,
-          weeklyGoalCompletedDateKey: nextCompletedKey || null,
-          weeklyGoalDurationDays: nextDuration ?? null,
-          weeklyGoalCompleted: Boolean(nextCompletedKey),
-
           hoursForDay: hoursForDay || "",
 
           updatedBy: me?.uid ?? null,
@@ -331,11 +284,7 @@ setStudentName(
       await setDoc(
         doc(db, "users", studentUid),
         {
-          weeklyGoal: nextGoal,
-          weeklyGoalWeekKey: nextWeekKey || null,
-          weeklyGoalStartDateKey: nextStartKey || null,
-          weeklyGoalCompletedDateKey: nextCompletedKey || null,
-          weeklyGoalDurationDays: nextDuration ?? null,
+        
 
           currentSabak: sabak,
           currentSabakDhor: sabakDhor,
@@ -354,11 +303,7 @@ setStudentName(
       );
 
       // update local state so UI reflects instantly
-      setWeeklyGoal(nextGoal);
-      setWeeklyGoalWeekKey(nextWeekKey || "");
-      setWeeklyGoalStartDateKey(nextStartKey || "");
-      setWeeklyGoalCompletedDateKey(nextCompletedKey || "");
-      setWeeklyGoalDurationDays(nextDuration ?? null);
+
 
       setMsg("Saved ✅");
       setTimeout(() => setMsg(null), 2500);
@@ -440,23 +385,6 @@ setStudentName(
             Update today’s work
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {weeklyGoal ? (
-              <span className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white/70 px-3 py-1.5 text-xs font-semibold text-gray-700">
-                Goal: {weeklyGoalWeekKey || currentWeekKey}
-              </span>
-            ) : null}
-
-            {goalAlreadyCompleted ? (
-              <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
-                Completed in {weeklyGoalDurationDays ?? "—"} day(s)
-              </span>
-            ) : weeklyGoal ? (
-              <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">
-                In progress
-              </span>
-            ) : null}
-          </div>
         </div>
 
         <form onSubmit={handleSave} className="mt-6 grid gap-5">
@@ -526,78 +454,44 @@ setStudentName(
                   hint="Short notes"
                 />
               </div>
-              <Field
-                label="Hours Studied Today"
-                value={hoursForDay}
-                setValue={setHoursForDay}
-                hint="Example: 2.5 hours"/>
+
+          
             </div>
             
           </div>
 
-          
-          
 
-          {/* Weekly goal block */}
-          <div className="rounded-3xl border border-gray-300 bg-white/70 p-5 sm:p-6">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
-              <div>
-                <div className="text-sm font-semibold text-gray-900">Weekly Goal</div>
-                <div className="mt-1 text-sm text-gray-700">
-                  Set once per week. When finished, tick “Completed” to calculate duration.
-                </div>
-              </div>
-
-              <div className="text-xs text-gray-600">
-                Week: <span className="font-semibold">{currentWeekKey}</span>
-              </div>
-            </div>
-
+   {/* Dhor */}
+          <div className="rounded-3xl border border-gray-300 bg-white/70 backdrop-blur-xl p-5 sm:p-6">
+            <div className="text-sm font-semibold text-gray-900">Hours</div>
             <div className="mt-4 grid gap-4">
-              <label className="grid gap-2">
-                <div className="flex items-end justify-between gap-4">
-                  <span className="text-sm font-semibold text-gray-900">Weekly Sabak Goal</span>
-                  <span className="text-xs text-gray-500">
-                    {goalLockedThisWeek ? "Locked (already set this week)" : "Set it now"}
-                  </span>
-                </div>
-
-                <input
-                  value={weeklyGoal}
-                  onChange={(e) => setWeeklyGoal(e.target.value)}
-                  disabled={goalLockedThisWeek}
-                  className="h-12 rounded-2xl border border-gray-300 bg-white/80 px-4 outline-none focus:ring-2 focus:ring-[#B8963D]/30 disabled:opacity-60"
-                  placeholder="Example: 10 pages"
-                />
-              </label>
-
-              <div className="grid gap-2 sm:grid-cols-3">
-                <MiniInfo label="Started" value={weeklyGoalStartDateKey || "—"} />
-                <MiniInfo label="Completed" value={weeklyGoalCompletedDateKey || "—"} />
-                <MiniInfo
-                  label="Duration"
-                  value={weeklyGoalDurationDays ? `${weeklyGoalDurationDays} day(s)` : "—"}
-                />
-              </div>
-
-              <label className="flex items-center justify-between gap-4 rounded-2xl border border-gray-300 bg-white/70 px-4 py-4">
-                <div>
-                  <div className="text-sm font-semibold text-gray-900">Weekly Goal Completed</div>
-                  <div className="mt-1 text-xs text-gray-600">
-                    Tick only when the student has finished their weekly goal.
-                  </div>
-                </div>
-
-                <input
-                  type="checkbox"
-                  checked={goalAlreadyCompleted ? true : markGoalCompleted}
-                  disabled={goalAlreadyCompleted || !weeklyGoal.trim()}
-                  onChange={(e) => setMarkGoalCompleted(e.target.checked)}
-                  className="h-6 w-6 accent-black disabled:opacity-50"
-                />
-              </label>
+              <Field
+              label="Hours Spent Learning (Today)"
+              value={hoursForDay}
+              setValue={setHoursForDay}
+              hint="Example: 2.5 hours"
+/>
             </div>
+            
           </div>
+
+
+          <div className="rounded-3xl border border-gray-300 bg-white/70 backdrop-blur-xl p-5 sm:p-6 mt-6">
+  <div className="text-sm font-semibold text-gray-900">Weekly Lines Learned</div>
+  <div className="mt-4 grid gap-4">
+    <Field
+      label="Total Lines Learned This Week"
+      value={weeklyLinesLearned}
+      setValue={setWeeklyLinesLearned}
+      hint="Enter the total lines learned for this week"
+    />
+  </div>
+</div>
+
+            
+          
+          
+
 
           <div className="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <button

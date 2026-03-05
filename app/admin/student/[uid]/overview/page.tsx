@@ -75,11 +75,7 @@ type LogRow = {
 
   hoursForDay?: string;
 
-  weeklyGoal?: string;
-
-  weeklyGoalStartDateKey?: string;
-  weeklyGoalCompletedDateKey?: string;
-  weeklyGoalDurationDays?: number | string;
+  weeklyLinesLearned?: string;
 };
 
 async function fetchLogs(uid: string): Promise<LogRow[]> {
@@ -162,8 +158,7 @@ setStudentName(
     const sabakNums = rows.map((r) => num(r.sabak)).filter((n) => n > 0);
     const avgSabak =
       sabakNums.length ? sabakNums.reduce((a, b) => a + b, 0) / sabakNums.length : 0;
-    const lastGoal = num(rows[0]?.weeklyGoal);
-    return { totalDays: rows.length, avgSabak, lastGoal };
+    return { totalDays: rows.length, avgSabak };
   }, [rows]);
 
   if (checking) {
@@ -346,15 +341,10 @@ setStudentName(
                         <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
                           Hours Learned (Today)
                        </th>
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Weekly Goal
+                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Total Weekly Lines
                       </th>
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Goal Status
-                      </th>
-                      <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
-                        Duration
-                      </th>
+
                     </tr>
                   </thead>
 
@@ -364,24 +354,7 @@ setStudentName(
                     const prevMonth =
                     index > 0 ? getMonthLabel(rows[index - 1].dateKey) : null;
 
-                    const showMonthHeader = index === 0 || currentMonth !== prevMonth;
-                      const g = num(r.weeklyGoal);
-
-                      const startKey = toText(r.weeklyGoalStartDateKey);
-                      const completedKey = toText(r.weeklyGoalCompletedDateKey);
-
-                      const storedDur =
-                        typeof r.weeklyGoalDurationDays === "number"
-                          ? r.weeklyGoalDurationDays
-                          : toText(r.weeklyGoalDurationDays)
-                          ? Number(r.weeklyGoalDurationDays)
-                          : null;
-
-                      const calcDur =
-                        startKey && completedKey ? diffDaysInclusive(startKey, completedKey) : null;
-
-                      const duration = storedDur ?? calcDur;
-                      const completed = Boolean(completedKey) || (duration ?? 0) > 0;
+                    const showMonthHeader = index === 0 || currentMonth !== prevMonth
 
                       return (
                           <>
@@ -430,34 +403,10 @@ setStudentName(
                                                       <td className="py-4 px-4 border-l border-gray-100">
                           {toText(r.hoursForDay) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {toText(r.weeklyGoal) || "—"}
-                          </td>
-
-                          <td className="py-4 px-4 border-l border-gray-100">
-                            {g > 0 ? (
-                              <span
-                                className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold border ${
-                                  completed
-                                    ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                                    : "border-amber-200 bg-amber-50 text-amber-700"
-                                }`}
-                              >
-                                <span
-                                  className={`h-2 w-2 rounded-full ${
-                                    completed ? "bg-emerald-500" : "bg-amber-500"
-                                  }`}
-                                />
-                                {completed ? "Completed" : "In progress"}
-                              </span>
-                            ) : (
-                              <span className="text-xs text-gray-500">No goal set</span>
-                            )}
-                          </td>
-
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {duration ? `${duration} day(s)` : "—"}
-                          </td>
+                          <td className="py-4 px-4 border-l border-gray-100 font-semibold">
+  {toText(r.weeklyLinesLearned) || "—"}
+</td>
+                         
                         </tr>
                         </>
                       );
