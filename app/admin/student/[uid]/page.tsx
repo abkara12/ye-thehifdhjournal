@@ -152,6 +152,7 @@ const READING_OPTIONS = [
 export default function AdminStudentPage() {
   const params = useParams<{ uid: string }>();
   const studentUid = params.uid;
+  
 
   const [sabakLines, setSabakLines] = useState("");
 const [sabakDhorJuz, setSabakDhorJuz] = useState("");
@@ -350,7 +351,7 @@ setStudentName(
           sabakDhorJuz,
           dhorJuz,
           hoursForDay,
-          weeklyLinesLearned,
+          weeklyLinesLearned: weeklyLinesLearned || "",
 
           // ✅ Save the EXACT field names the student table expects
           sabakRead: sabakReadQuality,
@@ -591,6 +592,21 @@ setStudentName(
       setValue={setHoursForDay}
       hint="Total hours spent"
     />
+  </div>
+</div>
+
+<div className="rounded-3xl border border-gray-200 bg-white/60 p-5 sm:p-6">
+  <div className="text-sm font-semibold text-gray-900">
+     Total Weekly Lines
+  </div>
+
+  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+   <Field
+label="Weekly Lines Learned"
+value={weeklyLinesLearned}
+setValue={setWeeklyLinesLearned}
+hint="Total lines memorised this week"
+/>
   </div>
 </div>
 
