@@ -94,6 +94,13 @@ function Badge({ children }: { children: React.ReactNode }) {
   );
 }
 
+function displayHalf(val?: string) {
+  if (!val) return "—";
+  if (val === "first" || val === "1st") return "First Half";
+  if (val === "second" || val === "2nd") return "Second Half";
+  return val; // fallback
+}
+
 /* ---------------- page ---------------- */
 export default function AdminStudentOverviewPage() {
   const params = useParams<{ uid: string }>();
@@ -395,10 +402,9 @@ setStudentName(
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.sabakDhor) || "—"}
                           </td>
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-  {toText(r.sabakDhorHalf) || "—"}
+            <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
+  {displayHalf(r.sabakDhorHalf)}
 </td>
-                          
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
   {toText(r.sabakDhorReadNotes) || "—"}
 </td>
@@ -406,8 +412,8 @@ setStudentName(
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.dhor) || "—"}
                           </td>
-                         <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-  {toText(r.dhorHalf) || "—"}
+    <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
+  {displayHalf(r.dhorHalf)}
 </td>
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
                             {toText(r.dhorReadNotes) || "—"}

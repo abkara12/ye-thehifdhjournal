@@ -57,9 +57,11 @@ type LogRow = {
 
   sabakDhor?: string;
   sabakDhorReadNotes?: string;
+  sabakDhorHalf?: string;
 
   dhor?: string;
   dhorReadNotes?: string;
+  dhorHalf?: string;
 
   hoursForDay?: string;
 
@@ -251,6 +253,9 @@ export default function OverviewPage() {
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
                         Sabak Dhor(1/2 Juz)
                       </th>
+                         <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Sabak Dhor Half
+                      </th>
                      
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
   Notes
@@ -259,7 +264,9 @@ export default function OverviewPage() {
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
                         Dhor(1/2 Juz)
                       </th>
-                      
+                         <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
+                        Dhor Half
+                      </th>
                       <th className="sticky top-0 bg-white/70 backdrop-blur-xl backdrop-blur pb-3 px-4 border-b border-gray-300 border-l border-gray-100">
   Notes
 </th>
@@ -313,21 +320,26 @@ export default function OverviewPage() {
                           </td>
                          
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
-  {toText(r.sabakReadNotes) || "—"}
-</td>
+                          {toText(r.sabakReadNotes) || "—"}
+                        </td>
 
-                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                            {toText(r.sabakDhor) || "—"}
-                          </td>
-                          
-                          <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
-  {toText(r.sabakDhorReadNotes) || "—"}
-</td>
+                                                  <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
+                                                    {toText(r.sabakDhor) || "—"}
+                                                  </td>
+                                                                    <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
+                          {toText(r.sabakDhorHalf) || "—"}
+                        </td>
+                                                  <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
+                          {toText(r.sabakDhorReadNotes) || "—"}
+                        </td>
 
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
                             {toText(r.dhor) || "—"}
                           </td>
-                         
+                          <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
+                        {toText(r.dhorHalf) || "—"}
+                      </td>
+                                              
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
                             {toText(r.dhorReadNotes) || "—"}
                           </td>
