@@ -40,6 +40,13 @@ function getDayName(dateKey?: string) {
   return d.toLocaleDateString("en-US", { weekday: "short" });
 }
 
+function halfLabel(value?: string) {
+  if (!value) return "—";
+  if (value.toLowerCase() === "first") return "First Half";
+  if (value.toLowerCase() === "second") return "Second Half";
+  return value;
+}
+
 function getMonthLabel(dateKey?: string) {
   if (!dateKey) return "";
   const d = parseDateKey(dateKey);
@@ -327,7 +334,7 @@ export default function OverviewPage() {
                                                     {toText(r.sabakDhor) || "—"}
                                                   </td>
                                                                     <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                          {toText(r.currentSabakDhorHalf) || "—"}
+                          {halfLabel(r.currentSabakDhorHalf) || "—"}
                         </td>
                                                   <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
                           {toText(r.sabakDhorReadNotes) || "—"}
@@ -337,7 +344,7 @@ export default function OverviewPage() {
                             {toText(r.dhor) || "—"}
                           </td>
                           <td className="py-4 px-4 text-gray-800 border-l border-gray-100">
-                        {toText(r.currentDhorHalf) || "—"}
+                        {halfLabel(r.currentDhorHalf) || "—"}
                       </td>
                                               
                           <td className="py-4 px-4 text-gray-700 border-l border-gray-100 max-w-[200px]">
