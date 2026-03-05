@@ -383,6 +383,24 @@ function StatCard({ label, value }: { label: string; value: string }) {
   );
 }
 
+<div className="pointer-events-none fixed inset-0 -z-10">
+  {/* Clean luxury base */}
+  <div className="absolute inset-0 bg-[#F8F6F1]" />
+
+  {/* Deep contrast blobs */}
+  <div className="absolute -top-72 -right-40 h-[900px] w-[900px] rounded-full bg-[#1F3F3F]/25 blur-3xl" />
+  <div className="absolute bottom-[-25%] left-[-15%] h-[1000px] w-[1000px] rounded-full bg-[#B8963D]/20 blur-3xl" />
+
+  {/* Subtle radial glow */}
+  <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_70%_20%,rgba(184,150,61,0.15),transparent_60%)]" />
+
+  {/* Elegant vignette */}
+  <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_50%_10%,transparent_50%,rgba(0,0,0,0.08))]" />
+
+  {/* 🔥 Premium grain texture (ADD THIS LAST) */}
+  <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply bg-[url('/noise.png')]" />
+</div>
+
 function FancyBg() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10">
